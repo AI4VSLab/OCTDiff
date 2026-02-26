@@ -1,0 +1,12 @@
+../*
+__pycache__/
+*.py[cod]
+.venv/
+*.log
+*.csv
+*.xlsx
+*.zip
+*.h5
+*.pth
+*.pyth
+.ipynb_checkpoints/
