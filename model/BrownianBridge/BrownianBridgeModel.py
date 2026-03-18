@@ -35,10 +35,10 @@ class BrownianBridgeModel(nn.Module):
 
         self.predicted_noise_list = []  #new
 
-        self.should_log = False  # Store the logging preference
+        self.should_log = False  
 
         self.model_config = model_config
-        # model hyperparameters
+
         model_params = model_config.BB.params
         self.num_timesteps = model_params.num_timesteps
         self.mt_type = model_params.mt_type
@@ -50,11 +50,9 @@ class BrownianBridgeModel(nn.Module):
         self.steps = None
         self.register_schedule()
 
-        # loss and objective
         self.loss_type = model_params.loss_type
         self.objective = model_params.objective
 
-        # UNet
         self.image_size = model_params.UNetParams.image_size
         self.channels = model_params.UNetParams.in_channels
         self.condition_key = model_params.UNetParams.condition_key
@@ -108,7 +106,7 @@ class BrownianBridgeModel(nn.Module):
         return self.denoise_fn.parameters()
 
     def forward(self, x, y, context=None):
-        self.predicted_noise_list = []  # 清空 ANA 历史记录
+        self.predicted_noise_list = []  
         if self.condition_key == "nocond":
             context = None
         else:
@@ -135,37 +133,36 @@ class BrownianBridgeModel(nn.Module):
         b, c, h, w = x0.shape
         noise = default(noise, lambda: torch.randn_like(x0))
         #print('TRAIN 1')
-        # 前向过程：生成加噪样本和目标值
-        x_t, objective = self.q_sample(x0, y, t, noise)
+    
+        x_t, objective = self.q_sample(x0, y, t, noise) #forward
 
         # ANA
         if self.ana_on:
             current_pred = self.denoise_fn(x_t, timesteps=t, context=context)
             #print('TRAIN 2')
-            # 将当前预测添加到 ANA 历史列表中
             self.predicted_noise_list.append(current_pred)
 
-            # 计算加权噪声（ANA）：越近的 timestep 权重越大（线性衰减）
-            weights = torch.linspace(1, len(self.predicted_noise_list), len(self.predicted_noise_list), device=x_t.device)
+    
+            weights = torch.linspace(1, len(self.predicted_noise_list), len(self.predicted_noise_list), device=x_t.device) ## linear decay weights!
+         
+        
             weights = weights / weights.sum()
             weighted_pred = sum(w * n for w, n in zip(weights, self.predicted_noise_list))
             
             #print('TRAIN 3')
-            # 替换原始 predicted_noise 为加权结果
-            objective_recon = weighted_pred
+   
+            objective_recon = weighted_pred #replace original predicted_noise with weighted result
 
         else:
             objective_recon = self.denoise_fn(x_t, timesteps=t, context=context)
 
-        # 计算损失
         if self.loss_type == 'l1':
             recloss = (objective - objective_recon).abs().mean()
         elif self.loss_type == 'l2':
             recloss = F.mse_loss(objective, objective_recon)
         else:
             raise NotImplementedError()
-
-        # 预测 x0
+        
         x0_recon = self.predict_x0_from_objective(x_t, y, t, objective_recon)
         log_dict = {
             "loss": recloss,
@@ -174,7 +171,7 @@ class BrownianBridgeModel(nn.Module):
         #print('TRAIN 4')
         return recloss, log_dict
     
-#没有ANA的训练p_losses
+#p_losses without ANA
     # def p_losses(self, x0, y, context, t, noise=None):
     #     """
     #     model loss
@@ -207,9 +204,7 @@ class BrownianBridgeModel(nn.Module):
 
     def q_sample(self, x0, y, t, noise=None):
 
-        # print(f"x0: {x0}")  # 添加调试语句，检查 x0 的值
-        # if x0 is None:  # 检查 x0 是否为 None
-        #     raise ValueError("x0 should not be None")
+
         if self.should_log:
             print(f"x0 shape: {x0.shape}")  # This logs the shape of x0
 
@@ -224,7 +219,7 @@ class BrownianBridgeModel(nn.Module):
 
         # weighted_noise = torch.zeros_like(noise)      #new
         # for i, n in enumerate(self.noise_list):
-        #     weight = 1.0 / (i + 1)  # 权重，按时间步加权
+        #     weight = 1.0 / (i + 1)  
         #     weighted_noise += weight * n              #new
 
         if self.objective == 'grad':
@@ -272,19 +267,15 @@ class BrownianBridgeModel(nn.Module):
             
             if self.ana_on:
                 #print('1')
-                            # 原始 UNet 预测
-                current_pred = self.denoise_fn(x_t, timesteps=t, context=context)
-
-                # 将当前预测添加到 ANA 历史列表中
+                current_pred = self.denoise_fn(x_t, timesteps=t, context=context) #original UNet prediction
                 self.predicted_noise_list.append(current_pred)
                 #print('2')
 
-                # 计算加权噪声（ANA）：越近的 timestep 权重越大（线性衰减）
-                weights = torch.linspace(1, len(self.predicted_noise_list), len(self.predicted_noise_list), device=x_t.device)
+
+                weights = torch.linspace(1, len(self.predicted_noise_list), len(self.predicted_noise_list), device=x_t.device) #linear weights
                 weights = weights / weights.sum()
                 weighted_pred = sum(w * n for w, n in zip(weights, self.predicted_noise_list))
 
-                # 替换原始 predicted_noise 为加权结果
                 objective_recon = weighted_pred
                 #print('3')
             else:
@@ -300,11 +291,11 @@ class BrownianBridgeModel(nn.Module):
             n_t = torch.full((x_t.shape[0],), self.steps[i+1], device=x_t.device, dtype=torch.long)
 
 
-            #         # 获取加权噪声    new
+            #       
             # weighted_noise = torch.zeros_like(x_t)
             # for j, n in enumerate(self.noise_list):
-            #     weight = 1.0 / (j + 1)  # 权重，按时间步加权
-            #     weighted_noise += weight * n    #new
+            #     weight = 1.0 / (j + 1)  # 
+            #     weighted_noise += weight * n   
 
             objective_recon = self.denoise_fn(x_t, timesteps=t, context=context)
             x0_recon = self.predict_x0_from_objective(x_t, y, t, objective_recon=objective_recon)
@@ -346,5 +337,5 @@ class BrownianBridgeModel(nn.Module):
 
     @torch.no_grad()
     def sample(self, y, context=None, clip_denoised=True, sample_mid_step=False):
-        self.predicted_noise_list = []  # ← 清空 ANA 历史记录（非常重要）
+        self.predicted_noise_list = []  
         return self.p_sample_loop(y, context, clip_denoised, sample_mid_step)
