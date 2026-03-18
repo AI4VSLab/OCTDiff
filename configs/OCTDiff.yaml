@@ -13,13 +13,11 @@ testing:
   sample_num: 1
 
 data:
-  dataset_name: 'testing' #'FocalLoss_Quality_500Epoch_Augmented_pOCT_Dataset' #'500Epoch_Registered_pOCT_Dataset' 
+  dataset_name: 'FocalLoss_Quality_500Epoch_Augmented_pOCT_Dataset' #'500Epoch_Registered_pOCT_Dataset' 
   dataset_type: 'custom_aligned'
   dataset_config:
-    dataset_path: /data/yetian/Portable OCT Project/denoised_pOCT_split_dataset
-    #'/media/16TB_Storage/yetian/Portable OCT Project/Registered_Spatial_Dataset'
-    #'/data/yetian/Portable OCT Project/HV Dataset' #'/data/yetian/Portable OCT Project/Augmented pOCT Dataset' # '/data/yetian/Portable OCT Project/pOCT_split_dataset' '#/data/yetian/Portable OCT Project/denoised_pOCT_split_dataset'
-    csv_path: '/data/yetian/Portable OCT Project/pOCT_img_weights.csv'
+    dataset_path: '/data/denoised_pOCT_split_dataset'
+    csv_path: '/data/pOCT_img_weights.csv'
     image_size: 256 #128 #256
     channels: 3
     to_normal: True

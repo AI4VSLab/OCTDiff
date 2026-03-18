@@ -10,3 +10,5 @@ __pycache__/
 *.pth
 *.pyth
 .ipynb_checkpoints/
+/results/
+/configs/OCTDiff_Practice.yaml
