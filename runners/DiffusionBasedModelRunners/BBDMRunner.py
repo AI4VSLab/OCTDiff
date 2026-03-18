@@ -1,3 +1,4 @@
+#dervided from BBDM loss code
 import os
 
 import torch.optim.lr_scheduler
@@ -10,12 +11,11 @@ from model.BrownianBridge.BrownianBridgeModel import BrownianBridgeModel
 
 from runners.utils import weights_init, get_optimizer, get_dataset, make_dir, get_image_grid, save_single_image
 from tqdm.autonotebook import tqdm
-from torchsummary import summary
+
 
 from abc import ABC
 from runners.BaseRunner import BaseRunner
 from runners.utils import get_image_grid
-
 
 
 class DiffusionBaseRunner(BaseRunner, ABC):
@@ -77,8 +77,7 @@ class BBDMRunner(DiffusionBaseRunner):
     def initialize_model(self, config):
         if config.model.model_type == "BBDM":
             bbdmnet = BrownianBridgeModel(config.model).to(config.training.device[0])
-        elif config.model.model_type == "LBBDM":
-            bbdmnet = LatentBrownianBridgeModel(config.model).to(config.training.device[0])
+  
         else:
             raise NotImplementedError
         bbdmnet.apply(weights_init)
@@ -270,19 +269,13 @@ class BBDMRunner(DiffusionBaseRunner):
         # 计算网络的损失
         loss, additional_info = net(x, x_cond)
 
-        gamma = 2.0  # 可以尝试不同的gamma值
-        epsilon = 1e-8  # 小常数，防止数值问题
+        gamma = 2.0  # 
+        epsilon = 1e-8  # small constant to avoid division by zero
+        normalized_weights = weights / 10.0  #normalize
+        focal_weight = (normalized_weights + epsilon) ** gamma  # normalize weight to [0, 1] and apply focal weighting
+        final_loss = (focal_weight * loss).mean()  # focal style loss
 
-        # 直接将权重归一化到 [0, 1] 范围内
-        normalized_weights = weights / 10.0  # 假设最大权重为10，确保归一化到 [0, 1]
 
-        # 计算 focal_weight: (normalized_weight + epsilon) ** gamma
-        focal_weight = (normalized_weights + epsilon) ** gamma  # 根据归一化的权重计算焦点权重
-
-        # 计算最终的加权损失
-        final_loss = (focal_weight * loss).mean()  # 按照焦点权重计算最终损失
-
-        # 记录日志
         if write and self.is_main_process:
             self.writer.add_scalar(f'loss/{stage}', final_loss, step)
             if 'recloss_noise' in additional_info:
