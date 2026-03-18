@@ -11,7 +11,7 @@ import random
 import numpy as np
 
 import sys
-sys.path.append('/data/yetian/OCTDiff')
+sys.path.append('/data/yetian/OCTDiff') #YourPath
 print(sys.path)
 from utils import dict2namespace, get_runner, namespace2dict
 import torch.multiprocessing as mp
