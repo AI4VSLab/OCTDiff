@@ -12,3 +12,4 @@ __pycache__/
 .ipynb_checkpoints/
 /results/
 /configs/OCTDiff_Practice.yaml
+/model_new/

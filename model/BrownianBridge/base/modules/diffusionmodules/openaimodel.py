@@ -413,7 +413,7 @@ class QKVAttention(nn.Module):
         return count_flops_attn(model, _x, y)
 
 
-# ###Multi Scale Cross Attention 
+# ###Multi Scale Cross Attention 模块
 
 
 # class CrossAttentionModule(nn.Module):
@@ -421,10 +421,12 @@ class QKVAttention(nn.Module):
 #         super().__init__()
 #         self.norm = nn.LayerNorm(1024)
         
-#         # # 
-#         # self.query_proj = nn.Conv2d(dim, 512, kernel_size=1)  #  512 channel
-#         # self.key_value_proj = nn.Conv2d(dim, 512, kernel_size=1)  # 512 channel
-#         self.attn = nn.MultiheadAttention(embed_dim=1024, num_heads=num_heads, batch_first=True) #attn layer
+#         # # 添加投影层，用于调整 query 和 key_value 的通道数为较小的通道数
+#         # self.query_proj = nn.Conv2d(dim, 512, kernel_size=1)  # 投影到 512 通道
+#         # self.key_value_proj = nn.Conv2d(dim, 512, kernel_size=1)  # 投影到 512 通道
+
+#         # 注意力层
+#         self.attn = nn.MultiheadAttention(embed_dim=1024, num_heads=num_heads, batch_first=True)
 
 #     def forward(self, query, key_value):
 #         """
@@ -440,7 +442,8 @@ class QKVAttention(nn.Module):
 #             self.key_value_proj = nn.Conv2d(C_kv, 512, kernel_size=1).to(key_value.device)
 #             self.query_proj_initialized = True
 
-#         if (H != H_kv or W != W_kv): #interpolate if query has different dimensions than key_value
+#         ###如果 query 和 key_value 分辨率不同，进行插值操作
+#         if (H != H_kv or W != W_kv):
 #             if H > H_kv or W > W_kv:
 #                 H_max, W_max = H, W
 #                 key_value = F.interpolate(key_value, size=(H, W), mode='bilinear', align_corners=False)
@@ -451,12 +454,12 @@ class QKVAttention(nn.Module):
 #             H_max, W_max = H, W
 
 
-#         #
-#        # query = self.query_proj(query)  # project to same (521) [B, 512, H, W]
+#         # 投影到统一的通道数（512）
+#        # query = self.query_proj(query)  # [B, 512, H, W]
 #        # key_value = self.key_value_proj(key_value)  # [B, 512, H, W]
 
-#      
-#         q = query.view(B, 1024, -1).permute(0, 2, 1)  # [B, HW, 512]  # flattern and permute for attention
+#         # 展平并归一化
+#         q = query.view(B, 1024, -1).permute(0, 2, 1)  # [B, HW, 512]
 #         kv = key_value.view(B_kv, 1024, -1).permute(0, 2, 1)  # [B, HW2, 512]
 #        # print(q.shape)
 #        # print(kv.shape)
@@ -679,7 +682,11 @@ class QKVAttention(nn.Module):
 #             return self.out(h)
 
 
-#original UNetModel from OpenAI, with some modifications for multi-scale cross attention and custom transformer support
+
+
+
+
+####以下是老代码
 class UNetModel(nn.Module):
     """
     The full UNet model with attention and timestep embedding.
