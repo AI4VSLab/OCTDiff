@@ -6,4 +6,4 @@ conda env create -f environment.yml
 ```
 
 ## **Training Script**
-- For running the training / inference script, see [url=https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh]template[/url]
+- For running the training / inference script, see [template](https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh)
