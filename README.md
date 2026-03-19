@@ -3,7 +3,7 @@
 ## **Requirements**
 ```bash
 conda env create -f environment.yml
-
+```
 
 ## **Training Script**
 - For running the training / inference script, see https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh
