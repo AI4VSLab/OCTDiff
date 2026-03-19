@@ -6,19 +6,22 @@ conda env create -f environment.yml
 ```
 
 ## **Training Script**
-- For running the training / inference script, see [template](https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh)
+For running the training / inference script, see [template](https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh)
 
 ## **Dataset Curation**
 The train/val/test set should by default in this format:
-/Train
-  /LowRes
-  /HiRes
-/Val
-  /LowRes
-  /HiRes
-/Test
-  /LowRes
-  /HiRes
+
+```text
+/Dataset_Root
+├── /Train
+│   ├── /LowRes
+│   └── /HiRes
+├── /Val
+│   ├── /LowRes
+│   └── /HiRes
+└── /Test
+    ├── /LowRes
+    └── /HiRes
 
 The [data_splitter](https://github.com/AI4VSLab/OCTDiff/blob/main/dataset_splitter.py)  is useful to curate such path structure.Please consider modifying the customized dataloader otherwise. 
 To implement loss function with weights, a .csv file is needed.
