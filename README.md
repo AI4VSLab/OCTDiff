@@ -1,3 +1,6 @@
+### **OCTDiff: Bridged Diffusion Model for Portable OCT Super-Resolution and Enhancement**
+https://neurips.cc/virtual/2025/loc/san-diego/poster/117693
+
 <img width="3240" height="1030" alt="pipeline (1)" src="https://github.com/user-attachments/assets/feac6643-bdc0-4959-a9ac-18753b90f85e" />
 
 ## **Requirements**
