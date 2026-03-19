@@ -7,3 +7,14 @@ conda env create -f environment.yml
 
 ## **Training Script**
 - For running the training / inference script, see [template](https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh)
+
+
+##** Citation **
+```
+@inproceedings{tian2025octdiff,
+  title={OCTDiff: Bridged Diffusion Model for Portable OCT Super-Resolution and Enhancement},
+  author={Tian, Ye and McCarthy, Angela and Gomide, Gabriel and Liddle, Nancy and Golebka, Jedrzej and Chen, Royce and Liebmann, Jeff and Thakoor, Kaveri A},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025}
+}
+```
