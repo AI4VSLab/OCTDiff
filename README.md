@@ -20,7 +20,7 @@ The train/val/test set should by default in this format:
   /LowRes
   /HiRes
 
-Please consider modifying the customized dataloader otherwise. 
+The [data_splitter](https://github.com/AI4VSLab/OCTDiff/blob/main/dataset_splitter.py)  is useful to curate such path structure.Please consider modifying the customized dataloader otherwise. 
 To implement loss function with weights, a .csv file is needed.
 
 ## ** Citation **
