@@ -36,7 +36,7 @@ To switch on / off the ANA module, parse False here:
     params:
       ana_on: True
 ```
-Multiscale Cross Attention is inherently integrated, based on [CrossFusion](https://github.com/RustinS/CrossFusion) 
+Multiscale Cross Attention is inherently integrated, based on [CrossFusion](https://github.com/RustinS/CrossFusion) and [x-transformer](https://pypi.org/project/x-transformers/).
 
 
 ## **Citation**
