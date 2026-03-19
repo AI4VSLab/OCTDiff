@@ -8,8 +8,22 @@ conda env create -f environment.yml
 ## **Training Script**
 - For running the training / inference script, see [template](https://github.com/AI4VSLab/OCTDiff/blob/main/Template-shell.sh)
 
+## ** Dataset Curation **
+The train/val/test set should by default in this format:
+/Train
+  /LowRes
+  /HiRes
+/Val
+  /LowRes
+  /HiRes
+/Test
+  /LowRes
+  /HiRes
 
-##** Citation **
+Please consider modifying the customized dataloader otherwise. 
+To implement loss function with weights, a .csv file is needed.
+
+## ** Citation **
 ```
 @inproceedings{tian2025octdiff,
   title={OCTDiff: Bridged Diffusion Model for Portable OCT Super-Resolution and Enhancement},
