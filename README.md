@@ -27,8 +27,17 @@ The train/val/test set should by default in this format:
     └── /HiRes
 ```
 
-The [data_splitter](https://github.com/AI4VSLab/OCTDiff/blob/main/dataset_splitter.py)  is useful to curate such path structure.Please consider modifying the customized dataloader otherwise. 
+The [data_splitter](https://github.com/AI4VSLab/OCTDiff/blob/main/dataset_splitter.py)  is useful to curate such path structure. Please consider modifying the customized dataloader otherwise. 
 To implement loss function with weights, a .csv file is needed.
+
+## **Model Training**
+To switch on / off the ANA module, parse False here:
+```
+    params:
+      ana_on: True
+```
+Multiscale Cross Attention is inherently integrated, based on [CrossFusion](https://github.com/RustinS/CrossFusion) 
+
 
 ## **Citation**
 ```
