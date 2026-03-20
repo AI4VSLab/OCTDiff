@@ -13,3 +13,4 @@ __pycache__/
 /results/
 /configs/OCTDiff_Practice.yaml
 /model_new/
+/model_backup/

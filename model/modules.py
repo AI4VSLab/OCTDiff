@@ -3,10 +3,8 @@ import pdb
 import torch
 import torch.nn as nn
 from functools import partial
-from einops import rearrange, repeat
 
-
-from model.BrownianBridge.base.modules.x_transformer import Encoder, TransformerWrapper  # TODO: can we directly rely on lucidrains code and simply add this as a reuirement? --> test
+from model.x_transformer import Encoder, TransformerWrapper  # TODO: can we directly rely on lucidrains code and simply add this as a reuirement? --> test
 
 
 class AbstractEncoder(nn.Module):

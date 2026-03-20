@@ -9,7 +9,7 @@ import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
 
-from model.BrownianBridge.base.modules.diffusionmodules.util import (
+from model.utils.diffusion_utils import (
     checkpoint,
     conv_nd,
     linear,
@@ -18,7 +18,7 @@ from model.BrownianBridge.base.modules.diffusionmodules.util import (
     normalization,
     timestep_embedding,
 )
-from model.BrownianBridge.base.modules.attention import SpatialTransformer
+from model.attention import SpatialTransformer
 
 
 # dummy replace

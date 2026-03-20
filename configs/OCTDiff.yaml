@@ -34,7 +34,7 @@ data:
 
 model:
   model_name: "BrownianBridge" # part of result path
-  model_type: "BBDM" # specify a module
+  model_type: "OCTDiff" # specify a module
   latent_before_quant_conv: False
   normalize_latent: False
   only_load_latent_mean_std: False

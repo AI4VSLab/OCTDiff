@@ -6,8 +6,7 @@ from torch.utils.data import DataLoader
 
 from PIL import Image
 from Register import Registers
-from model.BrownianBridge.BrownianBridgeModel import BrownianBridgeModel
-#from model.BrownianBridge.LatentBrownianBridgeModel import LatentBrownianBridgeModel
+from model.BridgedModel import BridgedModel
 
 from runners.utils import weights_init, get_optimizer, get_dataset, make_dir, get_image_grid, save_single_image
 from tqdm.autonotebook import tqdm
@@ -70,18 +69,18 @@ class DiffusionBaseRunner(BaseRunner, ABC):
 
 
 @Registers.runners.register_with_name('OCTDiffRunner')
-class BBDMRunner(DiffusionBaseRunner):
+class octdiffRunner(DiffusionBaseRunner):
     def __init__(self, config):
         super().__init__(config)
 
     def initialize_model(self, config):
-        if config.model.model_type == "BBDM":
-            bbdmnet = BrownianBridgeModel(config.model).to(config.training.device[0])
+        if config.model.model_type == "OCTDiff":
+            octdiff = BridgedModel(config.model).to(config.training.device[0])
   
         else:
             raise NotImplementedError
-        bbdmnet.apply(weights_init)
-        return bbdmnet
+        octdiff.apply(weights_init)
+        return octdiff
 
     def load_model_from_checkpoint(self):
         states = None

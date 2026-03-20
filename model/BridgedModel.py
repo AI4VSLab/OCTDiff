@@ -6,8 +6,8 @@ from functools import partial
 from tqdm.autonotebook import tqdm
 import numpy as np
 
-from model.BrownianBridge.base.modules.diffusionmodules.openaimodel import UNetModel
-from model.BrownianBridge.base.modules.encoders.modules import SpatialRescaler
+from model.openaimodel import UNetModel
+#from model.modules import SpatialRescaler
 from inspect import isfunction
 
 
@@ -27,7 +27,7 @@ def default(val, d):
     return d() if isfunction(d) else d
 
 
-class BrownianBridgeModel(nn.Module):
+class BridgedModel(nn.Module):
     def __init__(self, model_config):
         super().__init__()
         self.ana_on = model_config.BB.params.ana_on #new

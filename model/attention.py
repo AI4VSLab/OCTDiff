@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch import nn, einsum
 
 
-from model.BrownianBridge.base.modules.diffusionmodules.util import checkpoint
+from model.utils.diffusion_utils import checkpoint
 
 
 def exists(val):
