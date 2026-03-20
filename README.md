@@ -38,6 +38,9 @@ To switch on / off the ANA module, parse False here:
 ```
 Multiscale Cross Attention is inherently integrated, based on [CrossFusion](https://github.com/RustinS/CrossFusion) and [x-transformer](https://pypi.org/project/x-transformers/).
 
+## **Acknowledgements**
+Our code is based on [BBDM](https://github.com/xuekt98/BBDM?tab=readme-ov-file) and OpenAI [Guided Diffusion](https://github.com/openai/guided-diffusion/tree/0ba878e517b276c45d1195eb29f6f5f72659a05b), [Improved Diffusion](https://github.com/openai/improved-diffusion/tree/main)
+
 
 ## **Citation**
 ```
