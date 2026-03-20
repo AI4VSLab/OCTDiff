@@ -74,7 +74,7 @@ class octdiffRunner(DiffusionBaseRunner):
         super().__init__(config)
 
     def initialize_model(self, config):
-        if config.model.model_type == "OCTDiff":
+        if config.model.model_type == "bridge":
             octdiff = BridgedModel(config.model).to(config.training.device[0])
   
         else:
